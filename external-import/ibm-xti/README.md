@@ -1,4 +1,4 @@
-# OpenCTI External Ingestion Connector IBM X-Force PTI
+# OpenCTI External Ingestion Connector IBM X-Force Premier Threat Intelligence Services
 
 <!--
 General description of the connector
@@ -11,7 +11,7 @@ General description of the connector
 
 Table of Contents
 
-- [OpenCTI External Ingestion Connector IBM X-Force PTI](#opencti-external-ingestion-connector-ibm-x-force-pti)
+- [OpenCTI External Ingestion Connector IBM X-Force Premier Threat Intelligence Services](#opencti-external-ingestion-connector-ibm-x-force-premier-threat-intelligence-services)
   - [Introduction](#introduction)
   - [Installation](#installation)
     - [Requirements](#requirements)
