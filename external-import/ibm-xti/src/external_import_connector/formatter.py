@@ -8,7 +8,7 @@ from pycti import OpenCTIConnectorHelper
 
 md = MarkdownIt(
     options_update={"options": {"html": True, "linkify": True, "typographer": True}}
-)
+).enable('table')
 
 class VulnerabilityPlatform(TypedDict):
     vendor: str
@@ -84,7 +84,7 @@ class OpenCTISTIXFormatter:
         return "Unknown"
 
     def __parse_cvss(self, obj: dict[str, Any], entry: Any):
-        cvss: str = entry["string"]
+        cvss: str = entry.get("string")
 
         if not cvss:
             self.__helper.connector_logger.warning(f"{obj['id']}: No CVSS string found")
