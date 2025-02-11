@@ -290,7 +290,7 @@ class MandiantReport:
             created_by_ref=self.identity["standard_id"],
             object_refs=[report.get("id")],
             object_marking_refs=report["object_marking_refs"],
-            note_types=["analysis", "external"],
+            custom_properties={"note_types": ["analysis", "external"]},
         )
 
         self.bundle["objects"].append(note)
@@ -398,7 +398,7 @@ class MandiantReport:
         ]
 
         # Get objects from tags
-        source_geographies = list(self._get_objects_from_tags("source_geographies"))
+        # source_geographies = list(self._get_objects_from_tags("source_geographies"))
         target_geographies = list(self._get_objects_from_tags("target_geographies"))
         affected_industries = list(self._get_objects_from_tags("affected_industries"))
         affected_systems = list(self._get_objects_from_tags("affected_systems"))
@@ -413,11 +413,12 @@ class MandiantReport:
 
         if len(intrusion_sets) > 0:
             definitions += [
-                {
-                    "type": "originates-from",
-                    "sources": intrusion_sets,
-                    "destinations": source_geographies,
-                },
+                # https://github.com/OpenCTI-Platform/connectors/compare/issue/3129
+                # {
+                #    "type": "originates-from",
+                #    "sources": intrusion_sets,
+                #    "destinations": source_geographies,
+                # },
                 {
                     "type": "targets",
                     "sources": intrusion_sets,
@@ -457,11 +458,12 @@ class MandiantReport:
 
         if len(malwares) > 0:
             definitions += [
-                {
-                    "type": "originates-from",
-                    "sources": malwares,
-                    "destinations": source_geographies,
-                },
+                # https://github.com/OpenCTI-Platform/connectors/compare/issue/3129
+                # {
+                #    "type": "originates-from",
+                #    "sources": malwares,
+                #    "destinations": source_geographies,
+                # },
                 {
                     "type": "targets",
                     "sources": malwares,

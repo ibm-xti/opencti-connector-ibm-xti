@@ -50,7 +50,7 @@ def create_indicator(connector, indicator):
     indicator_value = indicator["value"].replace("'", "%27")
     indicator_type = indicator["type"]
 
-    confidence = indicator.get("mscore", None)
+    indicator_score = indicator.get("mscore", None)
 
     mapping = MAPPING.get(indicator_type, None)
 
@@ -69,11 +69,10 @@ def create_indicator(connector, indicator):
     value = utils.sanitizer("value", indicator)
     name = value if value else indicator_pattern
 
-    markings = [stix2.TLP_AMBER.get("id")]
-
     custom_properties = {
         "x_opencti_main_observable_type": observable_type,
         "x_opencti_create_observables": True,
+        "x_opencti_score": indicator_score,
     }
 
     return stix2.Indicator(
@@ -85,9 +84,8 @@ def create_indicator(connector, indicator):
         description=description,
         created=created,
         modified=modified,
-        confidence=confidence,
         created_by_ref=connector.identity["standard_id"],
-        object_marking_refs=markings,
+        object_marking_refs=connector.mandiant_marking,
         custom_properties=custom_properties,
     )
 
@@ -112,6 +110,7 @@ def process(connector, indicator):
                 is_family=True,
                 created_by_ref=connector.identity.get("standard_id"),
                 allow_custom=True,
+                object_marking_refs=connector.mandiant_marking,
             )
             items.append(stix_malware)
             items.append(
@@ -126,6 +125,7 @@ def process(connector, indicator):
                 name=attribution["name"],
                 created_by_ref=connector.identity.get("standard_id"),
                 allow_custom=True,
+                object_marking_refs=connector.mandiant_marking,
             )
             items.append(stix_intrusion_set)
             items.append(
@@ -163,6 +163,7 @@ def process(connector, indicator):
                 aliases=[campaign["name"]],
                 created_by_ref=connector.identity.get("standard_id"),
                 allow_custom=True,
+                object_marking_refs=connector.mandiant_marking,
             )
             items.append(stix_campaign)
         items.append(
