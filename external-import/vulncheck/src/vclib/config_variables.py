@@ -3,6 +3,7 @@ from pathlib import Path
 
 import yaml
 from pycti import get_config_variable
+from vclib.models.data_source import DataSource
 
 
 class ConfigConnector:
@@ -41,16 +42,28 @@ class ConfigConnector:
             ["connector", "duration_period"],
             self.load,
         )
+        self.scope = get_config_variable(
+            "CONNECTOR_SCOPE",
+            ["connector", "scope"],
+            self.load,
+        )
 
         # Connector extra parameters
         self.api_base_url = get_config_variable(
-            "CONNECTOR_TEMPLATE_API_BASE_URL",
-            ["connector_template", "api_base_url"],
+            "CONNECTOR_VULNCHECK_API_BASE_URL",
+            ["connector_vulncheck", "api_base_url"],
             self.load,
         )
 
         self.api_key = get_config_variable(
-            "CONNECTOR_TEMPLATE_API_KEY",
-            ["connector_template", "api_key"],
+            "CONNECTOR_VULNCHECK_API_KEY",
+            ["connector_vulncheck", "api_key"],
             self.load,
+        )
+
+        self.data_sources = get_config_variable(
+            "CONNECTOR_VULNCHECK_DATA_SOURCES",
+            ["connector_vulncheck", "data_sources"],
+            self.load,
+            default=DataSource.get_all_data_source_strings(),
         )
